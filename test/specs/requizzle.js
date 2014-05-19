@@ -10,22 +10,17 @@ function addInfected(targetPath, parentModule) {
 	return util.format('exports.infected = "%s";\n', INFECTED_STRING);
 }
 
+function newRequizzle(options) {
+	return require('../..')(options);
+}
+
 // Load the Jasmine-style matchers as globals
 require('expectations');
 
 describe('requizzle', function() {
-	var requizzle = require('../..');
-
-	it('should exist', function() {
-		expect(requizzle).toBeDefined();
-	});
-
-	it('should be a function', function() {
-		expect(typeof requizzle).toBe('function');
-	});
-
 	describe('basic functionality', function() {
 		it('should return "module.exports"', function() {
+			var requizzle = newRequizzle({});
 			var hello = requizzle('../fixtures/simple');
 
 			expect(hello).toBe('Hello world!');
@@ -37,7 +32,8 @@ describe('requizzle', function() {
 					before: addInfected
 				}
 			};
-			var parent = requizzle('../fixtures/parent', options);
+			var requizzle = newRequizzle(options);
+			var parent = requizzle('../fixtures/parent');
 
 			expect(parent.infected).toBe('Infected!');
 			expect(parent.child.infected).toBe('Not infected!');
@@ -49,13 +45,15 @@ describe('requizzle', function() {
 					before: addInfected
 				}
 			};
-			var nativeModule = requizzle('path', options);
+			var requizzle = newRequizzle(options);
+			var nativeModule = requizzle('path');
 
 			expect(nativeModule.infected).not.toBeDefined();
 		});
 
 		it('should throw an error if the filepath is not a string', function() {
 			function badFilepath() {
+				var requizzle = newRequizzle({});
 				requizzle({});
 			}
 
@@ -73,7 +71,8 @@ describe('requizzle', function() {
 						}
 					}
 				};
-				var extras = requizzle('../fixtures/extras', options);
+				var requizzle = newRequizzle(options);
+				var extras = requizzle('../fixtures/extras');
 
 				expect(extras.before).toBeDefined();
 				expect(extras.before).toBe('before');
@@ -87,7 +86,8 @@ describe('requizzle', function() {
 						}
 					}
 				};
-				var extras = requizzle('../fixtures/extras', options);
+				var requizzle = newRequizzle(options);
+				var extras = requizzle('../fixtures/extras');
 
 				expect(extras.after).toBe('after');
 			});
@@ -97,7 +97,8 @@ describe('requizzle', function() {
 					var options = {
 						extras: null
 					};
-					return requizzle('../fixtures/extras', options);
+					var requizzle = newRequizzle(options);
+					return requizzle('../fixtures/extras');
 				}
 
 				var expectedString = 'fail';
@@ -115,7 +116,8 @@ describe('requizzle', function() {
 				};
 
 				function requireWithPaths() {
-					return requizzle('../fixtures/hello-parent', options);
+					var requizzle = newRequizzle(options);
+					return requizzle('../fixtures/hello-parent');
 				}
 
 				expect(requireWithPaths).not.toThrow();
@@ -128,7 +130,8 @@ describe('requizzle', function() {
 				};
 
 				function noLeadingDot() {
-					return requizzle('../fixtures/noleadingdot', options);
+					var requizzle = newRequizzle(options);
+					return requizzle('../fixtures/noleadingdot');
 				}
 
 				expect(noLeadingDot).not.toThrow();
@@ -140,10 +143,10 @@ describe('requizzle', function() {
 				var options = {
 					requirePaths: [path.join(__dirname, '..', 'fixtures')]
 				};
-				var r = require('../../lib/requizzle');
+				var requizzle = new (require('../../lib/requizzle'))(options);
 
 				function noParent() {
-					return r(path.resolve(__dirname, '../fixtures/simple'), null, options);
+					return requizzle.requizzle(path.resolve(__dirname, '../fixtures/simple'));
 				}
 
 				expect(noParent).not.toThrow();
@@ -154,6 +157,7 @@ describe('requizzle', function() {
 		describe('strict wrapper', function() {
 			it('should preserve "use strict" declarations for entire files', function() {
 				function requireStrict() {
+					var requizzle = newRequizzle({});
 					requizzle('../fixtures/strict.js');
 				}
 
@@ -162,6 +166,7 @@ describe('requizzle', function() {
 
 			it('should not add "use strict" declarations to files without them', function() {
 				function requireNoStrict() {
+					var requizzle = newRequizzle({});
 					requizzle('../fixtures/nostrict.js');
 				}
 
@@ -179,7 +184,8 @@ describe('requizzle', function() {
 		};
 
 		it('should cause all descendants to inherit changes from the parent', function() {
-			var parent = requizzle('../fixtures/parent', infectOptions);
+			var requizzle = newRequizzle(infectOptions);
+			var parent = requizzle('../fixtures/parent');
 
 			expect(parent.infected).toBe(INFECTED_STRING);
 			expect(parent.child.infected).toBe(INFECTED_STRING);
@@ -188,13 +194,12 @@ describe('requizzle', function() {
 
 		it('should support circular requires', function() {
 			function circularRequire() {
-				return requizzle('../fixtures/circular-1', infectOptions);
+				var requizzle = newRequizzle(infectOptions);
+				return requizzle('../fixtures/circular-1');
 			}
 
 			expect(circularRequire).not.toThrow();
 			expect(circularRequire()).toBe('Hello world!');
 		});
-
-
 	});
 });

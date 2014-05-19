@@ -1,4 +1,4 @@
-/*global describe, expect, it */
+/*global beforeEach, describe, expect, it */
 'use strict';
 
 var path = require('path');
@@ -7,7 +7,15 @@ var path = require('path');
 require('expectations');
 
 describe('loader', function() {
+	var cacheStub;
 	var loader = require('../../lib/loader');
+
+	beforeEach(function() {
+		cacheStub = {
+			module: {},
+			source: {}
+		};
+	});
 
 	it('should exist', function() {
 		expect(loader).toBeDefined();
@@ -31,7 +39,7 @@ describe('loader', function() {
 	describe('createWrapper', function() {
 		it('should return an object with "before" and "after" arrays', function() {
 			var wrapper = loader.createWrapper(path.resolve(__dirname, 'requizzle.js'),
-				path.resolve(__dirname, 'index.js'), {});
+				path.resolve(__dirname, 'index.js'), cacheStub, {});
 
 			expect(typeof wrapper).toBe('object');
 			expect(wrapper.before).toBeDefined();
@@ -47,7 +55,7 @@ describe('loader', function() {
 			var Module = require('module');
 			var wrapper = {before: [], after: []};
 			var loaded = loader.load(path.resolve(__dirname, 'index.js'), module.parent, wrapper,
-				{});
+				cacheStub, {});
 
 			expect(loaded instanceof Module).toBe(true);
 		});

@@ -5,36 +5,48 @@
 require('expectations');
 
 describe('index', function() {
-	var index = require('../..');
+	var requizzle = require('../..');
 
 	it('should exist', function() {
-		expect(index).toBeDefined();
+		expect(requizzle).toBeDefined();
 	});
 
 	it('should be a function', function() {
-		expect(typeof index).toBe('function');
+		expect(typeof requizzle).toBe('function');
 	});
 
-	it('should have a "Requizzle" property', function() {
-		expect(index.Requizzle).toBeDefined();
+	it('should have a Requizzle property', function() {
+		expect(requizzle.Requizzle).toBeDefined();
 	});
 
-	it('should return the module when called with a valid module path', function() {
-		var simpleModule = index('../fixtures/simple');
+	it('should throw an error when the "options" parameter is missing', function() {
+		function missingOptions() {
+			return requizzle();
+		}
 
-		expect(typeof simpleModule).toBe('string');
-		expect(simpleModule).toBe('Hello world!');
+		expect(missingOptions).toThrow();
+	});
+
+	it('should throw an error when the "options" parameter is not an object', function() {
+		function badOptions() {
+			return requizzle('hi');
+		}
+
+		expect(badOptions).toThrow();
 	});
 
 	describe('Requizzle', function() {
-		var Requizzle = index.Requizzle;
-
 		it('should be a function', function() {
-			expect(typeof Requizzle).toBe('function');
+			expect(typeof requizzle.Requizzle).toBe('function');
 		});
 
-		it('should return a Requizzle instance when called with "new"', function() {
-			expect((new Requizzle()) instanceof Requizzle).toBe(true);
+		it('should return a new Requizzle instance when called with "new"', function() {
+			function newInstance() {
+				return new requizzle.Requizzle({});
+			}
+
+			expect(newInstance).not.toThrow();
+			expect(newInstance() instanceof requizzle.Requizzle).toBe(true);
 		});
 	});
 });
