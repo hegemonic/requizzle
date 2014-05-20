@@ -31,9 +31,9 @@ gulp.task('mocha-coverage', function(cb) {
 			branches: 100,
 			lines: 100,
 			functions: 100
-        },
-        coverageDirectory: 'coverage',
-        rootDirectory: ''
+		},
+		coverageDirectory: 'coverage',
+		rootDirectory: ''
 	};
 
 	gulp.src(paths.code)

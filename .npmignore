@@ -15,4 +15,9 @@ node_modules
 npm-debug.log
 .idea
 
+coverage
 test
+.eslintrc
+.gitignore
+.npmignore
+gulpfile.js
