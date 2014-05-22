@@ -1,7 +1,13 @@
+/*
+	Copyright (c) 2014 Google Inc. All rights reserved.
+
+	Use of this source code is governed by the MIT License, available in this package's LICENSE file
+	or at http://opensource.org/licenses/MIT.
+ */
 'use strict';
 
-var gulp = require('gulp');
 var eslint = require('gulp-eslint');
+var gulp = require('gulp');
 var istanbul = require('gulp-istanbul');
 var istanbulEnforcer = require('gulp-istanbul-enforcer');
 var mocha = require('gulp-mocha');
