@@ -130,6 +130,17 @@ describe('requizzle', function() {
 				expect(requireWithPaths().greeting).toBe('Hello world!');
 			});
 
+			it('should put the extra paths first so they get searched first', function() {
+				var extraPath = '/foo/bar/baz';
+				var options = {
+					requirePaths: [extraPath]
+				};
+				var requizzle = newRequizzle(options);
+				var modulepaths = requizzle('../fixtures/modulepaths');
+
+				expect(modulepaths[0]).toBe(extraPath);
+			});
+
 			it('should work if a require path in the module omits the leading dot', function() {
 				var options = {
 					requirePaths: [path.join(__dirname, '..', 'fixtures')]
