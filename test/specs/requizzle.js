@@ -136,9 +136,73 @@ describe('requizzle', function() {
 					requirePaths: [extraPath]
 				};
 				var requizzle = newRequizzle(options);
-				var modulepaths = requizzle('../fixtures/modulepaths');
+				var modulePaths = requizzle('../fixtures/modulepaths');
 
-				expect(modulepaths[0]).toBe(extraPath);
+				expect(modulePaths[0]).toBe(extraPath);
+			});
+
+			it('should accept an object with "before" and "after" arrays', function() {
+				var extraPaths = {
+					before: ['/foo/bar/baz'],
+					after: ['/bar/baz/qux']
+				};
+				var options = {
+					requirePaths: extraPaths
+				};
+				var requizzle = newRequizzle(options);
+				var modulePaths = requizzle('../fixtures/modulepaths');
+
+				expect(modulePaths[0]).toBe(extraPaths.before[0]);
+				expect(modulePaths[modulePaths.length - 1]).toBe(extraPaths.after[0]);
+			});
+
+			it('should accept an object that omits the "before" array', function() {
+				var afterPath = '/bar/baz/qux';
+				var modulePaths;
+
+				function getModulePaths() {
+					var requizzle = newRequizzle({
+						requirePaths: {
+							after: [afterPath]
+						}
+					});
+					return requizzle('../fixtures/modulepaths');
+				}
+
+				expect(getModulePaths).not.toThrow();
+
+				modulePaths = getModulePaths();
+				expect(modulePaths[modulePaths.length - 1]).toBe(afterPath);
+			});
+
+			it('should accept an object that omits the "after" array', function() {
+				var beforePath = '/foo/bar/baz';
+				var modulePaths;
+
+				function getModulePaths() {
+					var requizzle = newRequizzle({
+						requirePaths: {
+							before: [beforePath]
+						}
+					});
+					return requizzle('../fixtures/modulepaths');
+				}
+
+				expect(getModulePaths).not.toThrow();
+
+				modulePaths = getModulePaths();
+				expect(modulePaths[0]).toBe(beforePath);
+			});
+
+			it('should accept an empty object', function() {
+				function getModulePaths() {
+					var requizzle = newRequizzle({
+						requirePaths: {}
+					});
+					return requizzle('../fixtures/modulepaths');
+				}
+
+				expect(getModulePaths).not.toThrow();
 			});
 
 			it('should work if a require path in the module omits the leading dot', function() {

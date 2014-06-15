@@ -77,10 +77,19 @@ Each function accepts two parameters: `targetPath`, the path to the required mod
     + `extras.after`: A function that returns text to insert after the module's source code.
 + `infect`: Determines whether child modules are infected with the same changes as the parent
 module. Set to `true` to force child modules to inherit your changes. Defaults to `false`.
-+ `requirePaths`: An array of additional paths to search for required modules. For example, if
-`requirePaths` is set to `['/usr/lib/junk/modules']`, and you save a JavaScript module at
-`/usr/lib/junk/modules/mymodule.js`, you can require the module as `mymodule`. By default, the
-require path is not changed.
++ `requirePaths`: Additional paths to search for required modules. For example, if `requirePaths` is
+set to `['/usr/lib/junk/modules']`, and you save a JavaScript module at
+`/usr/lib/junk/modules/mymodule.js`, you can require the module as `mymodule`.
+
+    You can provide an array of paths, which will be searched before the default module paths, or an
+    object with the following properties:
+
+    + `requirePaths.before`: An array of paths to search before the default module paths.
+    + `requirePaths.after`: An array of paths to search after the default module paths. Use this
+    property if you want the module to use its own local dependencies when possible, then fall back
+    to the additional paths if necessary.
+
+    By default, the require path is not changed.
 
 
 ## Examples ##
@@ -152,6 +161,9 @@ Fair enough.
 
 ## Changelog ##
 
++ 0.2.0 (June 2014): The `requirePaths` option can now contain `before` and `after` properties.
+Paths in the `before` property will be searched first; paths in the `after` property will be
+searched last.
 + 0.1.1 (June 2014): If the `requirePaths` option is used, the module loader now searches the extra
 paths first rather than last.
 + 0.1.0 (June 2014): Initial release.
