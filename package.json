@@ -1,6 +1,6 @@
 {
   "name": "requizzle",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Swizzle a little something into your require() calls.",
   "main": "index.js",
   "scripts": {
