@@ -9,7 +9,6 @@
 var eslint = require('gulp-eslint');
 var gulp = require('gulp');
 var istanbul = require('gulp-istanbul');
-var istanbulEnforcer = require('gulp-istanbul-enforcer');
 var mocha = require('gulp-mocha');
 
 var paths = {
@@ -33,22 +32,18 @@ gulp.task('mocha', function() {
 gulp.task('mocha-coverage', function(cb) {
 	var enforcerOptions = {
 		thresholds: {
-			statements: 100,
-			branches: 100,
-			lines: 100,
-			functions: 100
-		},
-		coverageDirectory: 'coverage',
-		rootDirectory: ''
+			global: 100
+		}
 	};
 
 	gulp.src(paths.code)
 		.pipe(istanbul())
+		.pipe(istanbul.hookRequire())
 		.on('finish', function() {
 			gulp.src(paths.testSpecs)
 				.pipe(mocha())
 				.pipe(istanbul.writeReports())
-				.pipe(istanbulEnforcer(enforcerOptions))
+				.pipe(istanbul.enforceThresholds(enforcerOptions))
 				.on('error', function(err) {
 					cb(err);
 				})
@@ -59,6 +54,7 @@ gulp.task('mocha-coverage', function(cb) {
 gulp.task('lint', function() {
 	gulp.src(paths.lint)
 		.pipe(eslint())
+		.pipe(eslint.failAfterError())
 		.pipe(eslint.format());
 });
 
