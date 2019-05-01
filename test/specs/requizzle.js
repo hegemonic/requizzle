@@ -1,8 +1,8 @@
 /*
-	Copyright (c) 2014 Google Inc. All rights reserved.
+    Copyright (c) 2014 Google Inc. All rights reserved.
 
-	Use of this source code is governed by the MIT License, available in this package's LICENSE file
-	or at http://opensource.org/licenses/MIT.
+    Use of this source code is governed by the MIT License, available in this package's LICENSE file
+    or at http://opensource.org/licenses/MIT.
  */
 /* global describe, expect, it */
 'use strict';
@@ -13,284 +13,284 @@ var util = require('util');
 var INFECTED_STRING = 'Infected!';
 
 function addInfected() {
-	return util.format('exports.infected = "%s";\n', INFECTED_STRING);
+    return util.format('exports.infected = "%s";\n', INFECTED_STRING);
 }
 
 function newRequizzle(options) {
-	return require('../..')(options);
+    return require('../..')(options);
 }
 
 // Load the Jasmine-style matchers as globals
 require('expectations');
 
 describe('requizzle', function() {
-	describe('basic functionality', function() {
-		it('should return "module.exports"', function() {
-			var requizzle = newRequizzle({});
-			var hello = requizzle('../fixtures/simple');
+    describe('basic functionality', function() {
+        it('should return "module.exports"', function() {
+            var requizzle = newRequizzle({});
+            var hello = requizzle('../fixtures/simple');
 
-			expect(hello).toBe('Hello world!');
-		});
+            expect(hello).toBe('Hello world!');
+        });
 
-		it('should not infect required modules by default', function() {
-			var options = {
-				extras: {
-					before: addInfected
-				}
-			};
-			var requizzle = newRequizzle(options);
-			var parent = requizzle('../fixtures/parent');
+        it('should not infect required modules by default', function() {
+            var options = {
+                extras: {
+                    before: addInfected
+                }
+            };
+            var requizzle = newRequizzle(options);
+            var parent = requizzle('../fixtures/parent');
 
-			expect(parent.infected).toBe('Infected!');
-			expect(parent.child.infected).toBe('Not infected!');
-		});
+            expect(parent.infected).toBe('Infected!');
+            expect(parent.child.infected).toBe('Not infected!');
+        });
 
-		it('should not infect native modules', function() {
-			var options = {
-				extras: {
-					before: addInfected
-				}
-			};
-			var requizzle = newRequizzle(options);
-			var nativeModule = requizzle('path');
+        it('should not infect native modules', function() {
+            var options = {
+                extras: {
+                    before: addInfected
+                }
+            };
+            var requizzle = newRequizzle(options);
+            var nativeModule = requizzle('path');
 
-			expect(nativeModule.infected).not.toBeDefined();
-		});
+            expect(nativeModule.infected).not.toBeDefined();
+        });
 
-		it('should throw an error if the filepath is not a string', function() {
-			function badFilepath() {
-				var requizzle = newRequizzle({});
+        it('should throw an error if the filepath is not a string', function() {
+            function badFilepath() {
+                var requizzle = newRequizzle({});
 
-				requizzle({});
-			}
+                requizzle({});
+            }
 
-			expect(badFilepath).toThrow();
-		});
-	});
+            expect(badFilepath).toThrow();
+        });
+    });
 
-	describe('wrappers', function() {
-		describe('extras wrapper', function() {
-			it('should insert code before the module when requested', function() {
-				var options = {
-					extras: {
-						before: function() {
-							return 'exports.before = "before";\n';
-						}
-					}
-				};
-				var requizzle = newRequizzle(options);
-				var extras = requizzle('../fixtures/extras');
+    describe('wrappers', function() {
+        describe('extras wrapper', function() {
+            it('should insert code before the module when requested', function() {
+                var options = {
+                    extras: {
+                        before: function() {
+                            return 'exports.before = "before";\n';
+                        }
+                    }
+                };
+                var requizzle = newRequizzle(options);
+                var extras = requizzle('../fixtures/extras');
 
-				expect(extras.before).toBeDefined();
-				expect(extras.before).toBe('before');
-			});
+                expect(extras.before).toBeDefined();
+                expect(extras.before).toBe('before');
+            });
 
-			it('should insert code after the module when requested', function() {
-				var options = {
-					extras: {
-						after: function() {
-							return 'exports.after = "after";\n';
-						}
-					}
-				};
-				var requizzle = newRequizzle(options);
-				var extras = requizzle('../fixtures/extras');
+            it('should insert code after the module when requested', function() {
+                var options = {
+                    extras: {
+                        after: function() {
+                            return 'exports.after = "after";\n';
+                        }
+                    }
+                };
+                var requizzle = newRequizzle(options);
+                var extras = requizzle('../fixtures/extras');
 
-				expect(extras.after).toBe('after');
-			});
+                expect(extras.after).toBe('after');
+            });
 
-			it('should do nothing if the "extras" options are omitted', function() {
-				function nullExtras() {
-					var options = {
-						extras: null
-					};
-					var requizzle = newRequizzle(options);
+            it('should do nothing if the "extras" options are omitted', function() {
+                function nullExtras() {
+                    var options = {
+                        extras: null
+                    };
+                    var requizzle = newRequizzle(options);
 
-					return requizzle('../fixtures/extras');
-				}
+                    return requizzle('../fixtures/extras');
+                }
 
-				var expectedString = 'fail';
+                var expectedString = 'fail';
 
-				expect(nullExtras).not.toThrow();
-				expect(nullExtras().before).toBe(expectedString);
-				expect(nullExtras().after).toBe(expectedString);
-			});
-		});
+                expect(nullExtras).not.toThrow();
+                expect(nullExtras().before).toBe(expectedString);
+                expect(nullExtras().after).toBe(expectedString);
+            });
+        });
 
-		describe('requirepaths wrapper', function() {
-			it('should search the extra require paths for modules', function() {
-				var options = {
-					requirePaths: [path.resolve(__dirname, '../fixtures/subdir')]
-				};
+        describe('requirepaths wrapper', function() {
+            it('should search the extra require paths for modules', function() {
+                var options = {
+                    requirePaths: [path.resolve(__dirname, '../fixtures/subdir')]
+                };
 
-				function requireWithPaths() {
-					var requizzle = newRequizzle(options);
+                function requireWithPaths() {
+                    var requizzle = newRequizzle(options);
 
-					return requizzle('../fixtures/hello-parent');
-				}
+                    return requizzle('../fixtures/hello-parent');
+                }
 
-				expect(requireWithPaths).not.toThrow();
-				expect(requireWithPaths().greeting).toBe('Hello world!');
-			});
+                expect(requireWithPaths).not.toThrow();
+                expect(requireWithPaths().greeting).toBe('Hello world!');
+            });
 
-			it('should put the extra paths first so they get searched first', function() {
-				var extraPath = '/foo/bar/baz';
-				var options = {
-					requirePaths: [extraPath]
-				};
-				var requizzle = newRequizzle(options);
-				var modulePaths = requizzle('../fixtures/modulepaths');
+            it('should put the extra paths first so they get searched first', function() {
+                var extraPath = '/foo/bar/baz';
+                var options = {
+                    requirePaths: [extraPath]
+                };
+                var requizzle = newRequizzle(options);
+                var modulePaths = requizzle('../fixtures/modulepaths');
 
-				expect(modulePaths[0]).toBe(extraPath);
-			});
+                expect(modulePaths[0]).toBe(extraPath);
+            });
 
-			it('should accept an object with "before" and "after" arrays', function() {
-				var extraPaths = {
-					before: ['/foo/bar/baz'],
-					after: ['/bar/baz/qux']
-				};
-				var options = {
-					requirePaths: extraPaths
-				};
-				var requizzle = newRequizzle(options);
-				var modulePaths = requizzle('../fixtures/modulepaths');
+            it('should accept an object with "before" and "after" arrays', function() {
+                var extraPaths = {
+                    before: ['/foo/bar/baz'],
+                    after: ['/bar/baz/qux']
+                };
+                var options = {
+                    requirePaths: extraPaths
+                };
+                var requizzle = newRequizzle(options);
+                var modulePaths = requizzle('../fixtures/modulepaths');
 
-				expect(modulePaths[0]).toBe(extraPaths.before[0]);
-				expect(modulePaths[modulePaths.length - 1]).toBe(extraPaths.after[0]);
-			});
+                expect(modulePaths[0]).toBe(extraPaths.before[0]);
+                expect(modulePaths[modulePaths.length - 1]).toBe(extraPaths.after[0]);
+            });
 
-			it('should accept an object that omits the "before" array', function() {
-				var afterPath = '/bar/baz/qux';
-				var modulePaths;
+            it('should accept an object that omits the "before" array', function() {
+                var afterPath = '/bar/baz/qux';
+                var modulePaths;
 
-				function getModulePaths() {
-					var requizzle = newRequizzle({
-						requirePaths: {
-							after: [afterPath]
-						}
-					});
+                function getModulePaths() {
+                    var requizzle = newRequizzle({
+                        requirePaths: {
+                            after: [afterPath]
+                        }
+                    });
 
-					return requizzle('../fixtures/modulepaths');
-				}
+                    return requizzle('../fixtures/modulepaths');
+                }
 
-				expect(getModulePaths).not.toThrow();
+                expect(getModulePaths).not.toThrow();
 
-				modulePaths = getModulePaths();
-				expect(modulePaths[modulePaths.length - 1]).toBe(afterPath);
-			});
+                modulePaths = getModulePaths();
+                expect(modulePaths[modulePaths.length - 1]).toBe(afterPath);
+            });
 
-			it('should accept an object that omits the "after" array', function() {
-				var beforePath = '/foo/bar/baz';
-				var modulePaths;
+            it('should accept an object that omits the "after" array', function() {
+                var beforePath = '/foo/bar/baz';
+                var modulePaths;
 
-				function getModulePaths() {
-					var requizzle = newRequizzle({
-						requirePaths: {
-							before: [beforePath]
-						}
-					});
+                function getModulePaths() {
+                    var requizzle = newRequizzle({
+                        requirePaths: {
+                            before: [beforePath]
+                        }
+                    });
 
-					return requizzle('../fixtures/modulepaths');
-				}
+                    return requizzle('../fixtures/modulepaths');
+                }
 
-				expect(getModulePaths).not.toThrow();
+                expect(getModulePaths).not.toThrow();
 
-				modulePaths = getModulePaths();
-				expect(modulePaths[0]).toBe(beforePath);
-			});
+                modulePaths = getModulePaths();
+                expect(modulePaths[0]).toBe(beforePath);
+            });
 
-			it('should accept an empty object', function() {
-				function getModulePaths() {
-					var requizzle = newRequizzle({
-						requirePaths: {}
-					});
+            it('should accept an empty object', function() {
+                function getModulePaths() {
+                    var requizzle = newRequizzle({
+                        requirePaths: {}
+                    });
 
-					return requizzle('../fixtures/modulepaths');
-				}
+                    return requizzle('../fixtures/modulepaths');
+                }
 
-				expect(getModulePaths).not.toThrow();
-			});
+                expect(getModulePaths).not.toThrow();
+            });
 
-			it('should work if a require path in the module omits the leading dot', function() {
-				var options = {
-					requirePaths: [path.join(__dirname, '..', 'fixtures')]
-				};
+            it('should work if a require path in the module omits the leading dot', function() {
+                var options = {
+                    requirePaths: [path.join(__dirname, '..', 'fixtures')]
+                };
 
-				function noLeadingDot() {
-					var requizzle = newRequizzle(options);
+                function noLeadingDot() {
+                    var requizzle = newRequizzle(options);
 
-					return requizzle('../fixtures/noleadingdot');
-				}
+                    return requizzle('../fixtures/noleadingdot');
+                }
 
-				expect(noLeadingDot).not.toThrow();
-				expect(noLeadingDot()).toBeDefined();
-				expect(noLeadingDot().child).toBe('Child module');
-			});
+                expect(noLeadingDot).not.toThrow();
+                expect(noLeadingDot()).toBeDefined();
+                expect(noLeadingDot().child).toBe('Child module');
+            });
 
-			it('should work for modules with no parent', function() {
-				var options = {
-					requirePaths: [path.join(__dirname, '..', 'fixtures')]
-				};
-				var requizzle = new (require('../../lib/requizzle'))(options);
+            it('should work for modules with no parent', function() {
+                var options = {
+                    requirePaths: [path.join(__dirname, '..', 'fixtures')]
+                };
+                var requizzle = new (require('../../lib/requizzle'))(options);
 
-				function noParent() {
-					return requizzle.requizzle(path.resolve(__dirname, '../fixtures/simple'));
-				}
+                function noParent() {
+                    return requizzle.requizzle(path.resolve(__dirname, '../fixtures/simple'));
+                }
 
-				expect(noParent).not.toThrow();
-				expect(noParent()).toBe('Hello world!');
-			});
-		});
+                expect(noParent).not.toThrow();
+                expect(noParent()).toBe('Hello world!');
+            });
+        });
 
-		describe('strict wrapper', function() {
-			it('should preserve "use strict" declarations for entire files', function() {
-				function requireStrict() {
-					var requizzle = newRequizzle({});
+        describe('strict wrapper', function() {
+            it('should preserve "use strict" declarations for entire files', function() {
+                function requireStrict() {
+                    var requizzle = newRequizzle({});
 
-					requizzle('../fixtures/strict.js');
-				}
+                    requizzle('../fixtures/strict.js');
+                }
 
-				expect(requireStrict).toThrow();
-			});
+                expect(requireStrict).toThrow();
+            });
 
-			it('should not add "use strict" declarations to files without them', function() {
-				function requireNoStrict() {
-					var requizzle = newRequizzle({});
+            it('should not add "use strict" declarations to files without them', function() {
+                function requireNoStrict() {
+                    var requizzle = newRequizzle({});
 
-					requizzle('../fixtures/nostrict.js');
-				}
+                    requizzle('../fixtures/nostrict.js');
+                }
 
-				expect(requireNoStrict).not.toThrow();
-			});
-		});
-	});
+                expect(requireNoStrict).not.toThrow();
+            });
+        });
+    });
 
-	describe('infect option', function() {
-		var infectOptions = {
-			extras: {
-				before: addInfected
-			},
-			infect: true
-		};
+    describe('infect option', function() {
+        var infectOptions = {
+            extras: {
+                before: addInfected
+            },
+            infect: true
+        };
 
-		it('should cause all descendants to inherit changes from the parent', function() {
-			var requizzle = newRequizzle(infectOptions);
-			var parent = requizzle('../fixtures/parent');
+        it('should cause all descendants to inherit changes from the parent', function() {
+            var requizzle = newRequizzle(infectOptions);
+            var parent = requizzle('../fixtures/parent');
 
-			expect(parent.infected).toBe(INFECTED_STRING);
-			expect(parent.child.infected).toBe(INFECTED_STRING);
-			expect(parent.child.grandchild.infected).toBe(INFECTED_STRING);
-		});
+            expect(parent.infected).toBe(INFECTED_STRING);
+            expect(parent.child.infected).toBe(INFECTED_STRING);
+            expect(parent.child.grandchild.infected).toBe(INFECTED_STRING);
+        });
 
-		it('should support circular requires', function() {
-			function circularRequire() {
-				var requizzle = newRequizzle(infectOptions);
+        it('should support circular requires', function() {
+            function circularRequire() {
+                var requizzle = newRequizzle(infectOptions);
 
-				return requizzle('../fixtures/circular-1');
-			}
+                return requizzle('../fixtures/circular-1');
+            }
 
-			expect(circularRequire).not.toThrow();
-			expect(circularRequire()).toBe('Hello world!');
-		});
-	});
+            expect(circularRequire).not.toThrow();
+            expect(circularRequire()).toBe('Hello world!');
+        });
+    });
 });

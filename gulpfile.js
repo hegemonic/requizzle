@@ -1,8 +1,8 @@
 /*
-	Copyright (c) 2014 Google Inc. All rights reserved.
+    Copyright (c) 2014 Google Inc. All rights reserved.
 
-	Use of this source code is governed by the MIT License, available in this package's LICENSE file
-	or at http://opensource.org/licenses/MIT.
+    Use of this source code is governed by the MIT License, available in this package's LICENSE file
+    or at http://opensource.org/licenses/MIT.
  */
 'use strict';
 
@@ -11,32 +11,32 @@ var gulp = require('gulp');
 var gulpMocha = require('gulp-mocha');
 
 var paths = {
-	code: [
-		'*.js',
-		'lib/**/*.js'
-	],
-	lint: [
-		'*.js',
-		'lib/**/*.js',
-		'test/**/*.js'
-	],
-	testSpecs: ['test/specs/*.js']
+    code: [
+        '*.js',
+        'lib/**/*.js'
+    ],
+    lint: [
+        '*.js',
+        'lib/**/*.js',
+        'test/**/*.js'
+    ],
+    testSpecs: ['test/specs/*.js']
 };
 
 function mocha(cb) {
-	gulp.src(paths.testSpecs)
-		.pipe(gulpMocha());
+    gulp.src(paths.testSpecs)
+        .pipe(gulpMocha());
 
-	cb();
+    cb();
 }
 
 function lint(cb) {
-	gulp.src(paths.lint)
-		.pipe(eslint())
-		.pipe(eslint.format())
-		.pipe(eslint.failAfterError());
+    gulp.src(paths.lint)
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 
-	cb();
+    cb();
 }
 
 exports.lint = lint;
