@@ -4,7 +4,7 @@
 	Use of this source code is governed by the MIT License, available in this package's LICENSE file
 	or at http://opensource.org/licenses/MIT.
  */
-/*global describe, expect, it */
+/* global describe, expect, it */
 'use strict';
 
 var path = require('path');
@@ -12,7 +12,7 @@ var util = require('util');
 
 var INFECTED_STRING = 'Infected!';
 
-function addInfected(targetPath, parentModule) {
+function addInfected() {
 	return util.format('exports.infected = "%s";\n', INFECTED_STRING);
 }
 
@@ -60,6 +60,7 @@ describe('requizzle', function() {
 		it('should throw an error if the filepath is not a string', function() {
 			function badFilepath() {
 				var requizzle = newRequizzle({});
+
 				requizzle({});
 			}
 
@@ -72,7 +73,7 @@ describe('requizzle', function() {
 			it('should insert code before the module when requested', function() {
 				var options = {
 					extras: {
-						before: function(targetPath, parentModule) {
+						before: function() {
 							return 'exports.before = "before";\n';
 						}
 					}
@@ -87,7 +88,7 @@ describe('requizzle', function() {
 			it('should insert code after the module when requested', function() {
 				var options = {
 					extras: {
-						after: function(targetPath, parentModule) {
+						after: function() {
 							return 'exports.after = "after";\n';
 						}
 					}
@@ -104,6 +105,7 @@ describe('requizzle', function() {
 						extras: null
 					};
 					var requizzle = newRequizzle(options);
+
 					return requizzle('../fixtures/extras');
 				}
 
@@ -123,6 +125,7 @@ describe('requizzle', function() {
 
 				function requireWithPaths() {
 					var requizzle = newRequizzle(options);
+
 					return requizzle('../fixtures/hello-parent');
 				}
 
@@ -166,6 +169,7 @@ describe('requizzle', function() {
 							after: [afterPath]
 						}
 					});
+
 					return requizzle('../fixtures/modulepaths');
 				}
 
@@ -185,6 +189,7 @@ describe('requizzle', function() {
 							before: [beforePath]
 						}
 					});
+
 					return requizzle('../fixtures/modulepaths');
 				}
 
@@ -199,6 +204,7 @@ describe('requizzle', function() {
 					var requizzle = newRequizzle({
 						requirePaths: {}
 					});
+
 					return requizzle('../fixtures/modulepaths');
 				}
 
@@ -212,6 +218,7 @@ describe('requizzle', function() {
 
 				function noLeadingDot() {
 					var requizzle = newRequizzle(options);
+
 					return requizzle('../fixtures/noleadingdot');
 				}
 
@@ -239,6 +246,7 @@ describe('requizzle', function() {
 			it('should preserve "use strict" declarations for entire files', function() {
 				function requireStrict() {
 					var requizzle = newRequizzle({});
+
 					requizzle('../fixtures/strict.js');
 				}
 
@@ -248,6 +256,7 @@ describe('requizzle', function() {
 			it('should not add "use strict" declarations to files without them', function() {
 				function requireNoStrict() {
 					var requizzle = newRequizzle({});
+
 					requizzle('../fixtures/nostrict.js');
 				}
 
@@ -276,6 +285,7 @@ describe('requizzle', function() {
 		it('should support circular requires', function() {
 			function circularRequire() {
 				var requizzle = newRequizzle(infectOptions);
+
 				return requizzle('../fixtures/circular-1');
 			}
 

@@ -6,7 +6,7 @@
  */
 'use strict';
 
-var _ = require('underscore');
+var _ = require('lodash');
 var Requizzle = require('./lib/requizzle');
 
 module.exports = function requizzle(options) {
@@ -20,6 +20,7 @@ module.exports = function requizzle(options) {
 
 	return function(filepath) {
 		instance = instance || new Requizzle(options);
+
 		return instance.requizzle(filepath);
 	};
 };

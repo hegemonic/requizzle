@@ -4,7 +4,7 @@
 	Use of this source code is governed by the MIT License, available in this package's LICENSE file
 	or at http://opensource.org/licenses/MIT.
  */
-/*global beforeEach, describe, expect, it */
+/* global beforeEach, describe, expect, it */
 'use strict';
 
 var path = require('path');
@@ -59,7 +59,10 @@ describe('loader', function() {
 	describe('load', function() {
 		it('should return a Module object', function() {
 			var Module = require('module');
-			var wrapper = {before: [], after: []};
+			var wrapper = {
+				before: [],
+				after: []
+			};
 			var loaded = loader.load(path.resolve(__dirname, 'index.js'), module.parent, wrapper,
 				cacheStub, {});
 

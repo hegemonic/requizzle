@@ -4,7 +4,7 @@
 	Use of this source code is governed by the MIT License, available in this package's LICENSE file
 	or at http://opensource.org/licenses/MIT.
  */
-/*global describe, expect, it */
+/* global describe, expect, it */
 'use strict';
 
 // Load the Jasmine-style matchers as globals

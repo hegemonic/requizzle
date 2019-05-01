@@ -8,8 +8,7 @@
 
 var eslint = require('gulp-eslint');
 var gulp = require('gulp');
-var istanbul = require('gulp-istanbul');
-var mocha = require('gulp-mocha');
+var gulpMocha = require('gulp-mocha');
 
 var paths = {
 	code: [
@@ -24,39 +23,24 @@ var paths = {
 	testSpecs: ['test/specs/*.js']
 };
 
-gulp.task('mocha', function() {
+function mocha(cb) {
 	gulp.src(paths.testSpecs)
-		.pipe(mocha());
-});
+		.pipe(gulpMocha());
 
-gulp.task('mocha-coverage', function(cb) {
-	var enforcerOptions = {
-		thresholds: {
-			global: 100
-		}
-	};
+	cb();
+}
 
-	gulp.src(paths.code)
-		.pipe(istanbul())
-		.pipe(istanbul.hookRequire())
-		.on('finish', function() {
-			gulp.src(paths.testSpecs)
-				.pipe(mocha())
-				.pipe(istanbul.writeReports())
-				.pipe(istanbul.enforceThresholds(enforcerOptions))
-				.on('error', function(err) {
-					cb(err);
-				})
-				.on('finish', cb);
-		});
-});
-
-gulp.task('lint', function() {
+function lint(cb) {
 	gulp.src(paths.lint)
 		.pipe(eslint())
-		.pipe(eslint.failAfterError())
-		.pipe(eslint.format());
-});
+		.pipe(eslint.format())
+		.pipe(eslint.failAfterError());
 
-gulp.task('test', ['mocha-coverage', 'lint']);
-gulp.task('default', ['test']);
+	cb();
+}
+
+exports.lint = lint;
+exports.mocha = mocha;
+exports.test = gulp.series(mocha, lint);
+
+exports.default = exports.test;
