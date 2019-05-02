@@ -1,5 +1,7 @@
 # Requizzle #
 
+[![Build Status](https://travis-ci.com/hegemonic/requizzle.svg?branch=master)](https://travis-ci.com/hegemonic/requizzle)
+
 Swizzle a little something into your Node.js modules.
 
 
