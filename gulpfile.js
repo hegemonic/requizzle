@@ -4,13 +4,11 @@
     Use of this source code is governed by the MIT License, available in this package's LICENSE file
     or at http://opensource.org/licenses/MIT.
  */
-'use strict';
+const eslint = require('gulp-eslint');
+const gulp = require('gulp');
+const gulpMocha = require('gulp-mocha');
 
-var eslint = require('gulp-eslint');
-var gulp = require('gulp');
-var gulpMocha = require('gulp-mocha');
-
-var paths = {
+const paths = {
     code: [
         '*.js',
         'lib/**/*.js'

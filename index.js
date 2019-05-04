@@ -4,13 +4,11 @@
     Use of this source code is governed by the MIT License, available in this package's LICENSE file
     or at http://opensource.org/licenses/MIT.
  */
-'use strict';
-
-var _ = require('lodash');
-var Requizzle = require('./lib/requizzle');
+const _ = require('lodash');
+const Requizzle = require('./lib/requizzle');
 
 module.exports = function requizzle(options) {
-    var instance;
+    let instance;
 
     if (!options || typeof options !== 'object') {
         throw new TypeError('Requizzle\'s options parameter must be a non-null object.');
@@ -18,7 +16,7 @@ module.exports = function requizzle(options) {
     options = _.clone(options);
     options.parent = module.parent;
 
-    return function(filepath) {
+    return filepath => {
         instance = instance || new Requizzle(options);
 
         return instance.requizzle(filepath);
