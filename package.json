@@ -1,6 +1,6 @@
 {
   "name": "requizzle",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Swizzle a little something into your require() calls.",
   "main": "index.js",
   "scripts": {
@@ -24,13 +24,13 @@
     "url": "https://github.com/hegemonic/requizzle/issues"
   },
   "homepage": "https://github.com/hegemonic/requizzle",
+  "dependencies": {
+    "lodash": "^4.17.14"
+  },
   "devDependencies": {
     "expectations": "^1.0.0",
-    "gulp": "^4.0.1",
-    "gulp-eslint": "^5.0.0",
+    "gulp": "^4.0.2",
+    "gulp-eslint": "^6.0.0",
     "gulp-mocha": "^6.0.0"
-  },
-  "dependencies": {
-    "lodash": "^4.17.11"
   }
 }

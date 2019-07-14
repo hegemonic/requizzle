@@ -148,6 +148,7 @@ Fair enough.
 
 ## Changelog
 
++ 0.2.3 (July 2019): Updated dependencies.
 + 0.2.2 (May 2019): Fixed a compability issue with Node.js 12.
 + 0.2.1 (December 2014): The `requirePaths` option no longer inserts an extra
 line break into the source file.

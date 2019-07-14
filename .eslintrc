@@ -5,6 +5,7 @@
     },
 
     "parserOptions": {
+        "ecmaVersion": 2019,
         "sourceType": "module"
     },
 
@@ -154,7 +155,7 @@
         "array-bracket-newline": "off",
         "array-bracket-spacing": ["error", "never"],
         "array-element-newline": "off",
-        "block-spacing": ["error", "always"], "off", // TODO: enable with "stroustrup" (or "1tbsp" + lots of cleanup)
+        "block-spacing": ["error", "always"], // TODO: enable with "stroustrup" (or "1tbsp" + lots of cleanup)
         "brace-style": ["error", "1tbs"],
         "camelcase": "error",
         "capitalized-comments": "off",
