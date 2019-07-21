@@ -1,6 +1,6 @@
 # Requizzle
 
-[![Build Status](https://travis-ci.com/hegemonic/requizzle.svg?branch=master)](https://travis-ci.com/hegemonic/requizzle)
+[![Build Status](https://travis-ci.com/hegemonic/requizzle.svg?branch=master)](https://travis-ci.com/hegemonic/requizzle) [![Greenkeeper badge](https://badges.greenkeeper.io/hegemonic/requizzle.svg)](https://greenkeeper.io/)
 
 Swizzle a little something into your Node.js modules.
 
