@@ -20,4 +20,5 @@ test
 .eslintrc
 .gitignore
 .npmignore
+.renovaterc.json
 gulpfile.js
