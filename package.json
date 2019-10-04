@@ -31,6 +31,6 @@
     "expectations": "^1.0.0",
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
-    "gulp-mocha": "^7.0.1"
+    "gulp-mocha": "^7.0.2"
   }
 }
