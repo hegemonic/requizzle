@@ -1,6 +1,6 @@
 # Requizzle
 
-[![Build Status](https://travis-ci.com/hegemonic/requizzle.svg?branch=master)](https://travis-ci.com/hegemonic/requizzle)
+![Build status](https://github.com/hegemonic/requizzle/actions/workflows/build.yaml/badge.svg?branch=main)
 
 Swizzle a little something into your Node.js modules.
 
