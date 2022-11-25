@@ -54,6 +54,20 @@ describe('requizzle', () => {
       expect(nativeModule.infected).not.toBeDefined();
     });
 
+    it('should not infect `node:` imports of native modules', () => {
+      if (process.version.split('.')[0] >= '18') {
+        const options = {
+          extras: {
+            before: addInfected,
+          },
+        };
+        const requizzle = newRequizzle(options);
+        const nativeModule = requizzle('node:fs');
+
+        expect(nativeModule.infected).not.toBeDefined();
+      }
+    });
+
     it('should throw an error if the filepath is not a string', () => {
       function badFilepath() {
         const requizzle = newRequizzle({});
