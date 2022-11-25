@@ -28,9 +28,13 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@jsdoc/eslint-config": "^1.1.9",
+    "@jsdoc/prettier-config": "^0.1.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "expectations": "^1.0.0",
     "gulp": "^4.0.2",
-    "gulp-eslint": "^6.0.0",
+    "gulp-eslint-new": "^1.7.0",
     "gulp-mocha": "^7.0.2"
   }
 }

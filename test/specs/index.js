@@ -8,48 +8,48 @@
 require('expectations');
 
 describe('index', () => {
-    const requizzle = require('../..');
+  const requizzle = require('../..');
 
-    it('should exist', () => {
-        expect(requizzle).toBeDefined();
-    });
+  it('should exist', () => {
+    expect(requizzle).toBeDefined();
+  });
 
+  it('should be a function', () => {
+    expect(typeof requizzle).toBe('function');
+  });
+
+  it('should have a Requizzle property', () => {
+    expect(requizzle.Requizzle).toBeDefined();
+  });
+
+  it('should throw an error when the "options" parameter is missing', () => {
+    function missingOptions() {
+      return requizzle();
+    }
+
+    expect(missingOptions).toThrow();
+  });
+
+  it('should throw an error when the "options" parameter is not an object', () => {
+    function badOptions() {
+      return requizzle('hi');
+    }
+
+    expect(badOptions).toThrow();
+  });
+
+  describe('Requizzle', () => {
     it('should be a function', () => {
-        expect(typeof requizzle).toBe('function');
+      expect(typeof requizzle.Requizzle).toBe('function');
     });
 
-    it('should have a Requizzle property', () => {
-        expect(requizzle.Requizzle).toBeDefined();
+    it('should return a new Requizzle instance when called with "new"', () => {
+      function newInstance() {
+        return new requizzle.Requizzle({});
+      }
+
+      expect(newInstance).not.toThrow();
+      expect(newInstance() instanceof requizzle.Requizzle).toBe(true);
     });
-
-    it('should throw an error when the "options" parameter is missing', () => {
-        function missingOptions() {
-            return requizzle();
-        }
-
-        expect(missingOptions).toThrow();
-    });
-
-    it('should throw an error when the "options" parameter is not an object', () => {
-        function badOptions() {
-            return requizzle('hi');
-        }
-
-        expect(badOptions).toThrow();
-    });
-
-    describe('Requizzle', () => {
-        it('should be a function', () => {
-            expect(typeof requizzle.Requizzle).toBe('function');
-        });
-
-        it('should return a new Requizzle instance when called with "new"', () => {
-            function newInstance() {
-                return new requizzle.Requizzle({});
-            }
-
-            expect(newInstance).not.toThrow();
-            expect(newInstance() instanceof requizzle.Requizzle).toBe(true);
-        });
-    });
+  });
 });

@@ -4,37 +4,22 @@
     Use of this source code is governed by the MIT License, available in this package's LICENSE file
     or at http://opensource.org/licenses/MIT.
  */
-const eslint = require('gulp-eslint');
+const eslint = require('gulp-eslint-new');
 const gulp = require('gulp');
 const gulpMocha = require('gulp-mocha');
 
 const paths = {
-    code: [
-        '*.js',
-        'lib/**/*.js'
-    ],
-    lint: [
-        '*.js',
-        'lib/**/*.js',
-        'test/**/*.js'
-    ],
-    testSpecs: ['test/specs/*.js']
+  code: ['*.js', 'lib/**/*.js'],
+  lint: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
+  testSpecs: ['test/specs/*.js'],
 };
 
-function mocha(cb) {
-    gulp.src(paths.testSpecs)
-        .pipe(gulpMocha());
-
-    cb();
+function mocha() {
+  return gulp.src(paths.testSpecs).pipe(gulpMocha());
 }
 
-function lint(cb) {
-    gulp.src(paths.lint)
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
-
-    cb();
+function lint() {
+  return gulp.src(paths.lint).pipe(eslint()).pipe(eslint.format()).pipe(eslint.failAfterError());
 }
 
 exports.lint = lint;
