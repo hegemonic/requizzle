@@ -55,7 +55,7 @@ describe('requizzle', () => {
     });
 
     it('should not infect `node:` imports of native modules', () => {
-      if (process.version.split('.')[0] >= '18') {
+      if (process.versions.node.split('.')[0] >= '18') {
         const options = {
           extras: {
             before: addInfected,
