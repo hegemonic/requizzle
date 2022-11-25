@@ -92,14 +92,14 @@ const requizzle = require('requizzle');
 
 // Say hello and goodbye to each module.
 const logRequire = requizzle({
-    extras: {
-        before: function(targetPath, parentModule) {
-            return 'console.log("Hello %s!", ' + targetPath + ');\n';
-        },
-        after: function(targetPath, parentModule) {
-            return 'console.log("Goodbye %s!", ' + targetPath + ');\n';
-        }
+  extras: {
+    before: function(targetPath, parentModule) {
+      return 'console.log("Hello %s!", ' + targetPath + ');\n';
+    },
+    after: function(targetPath, parentModule) {
+      return 'console.log("Goodbye %s!", ' + targetPath + ');\n';
     }
+  }
 });
 // Prints "Hello /path/to/mymodule.js!" and "Goodbye /path/to/mymodule.js!"
 const myModule = logRequire('mymodule');
@@ -108,8 +108,8 @@ const myModule = logRequire('mymodule');
 // modules to do the same.
 const path = require('path');
 const extraPathRequire = requizzle({
-    infect: true,
-    requirePaths: [path.join(__dirname, 'lib')]
+  infect: true,
+  requirePaths: [path.join(__dirname, 'lib')]
 });
 // If `foo` needs to require a module in `./lib`, it can use `require('bar')`
 // instead of `require('./lib/bar')`.
