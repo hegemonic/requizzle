@@ -142,12 +142,15 @@ the modules that aren't working? Circular dependencies can cause unusual
 behavior with Requizzle, just as they can without Requizzle. Try breaking the
 circular dependency.
 
-### Requizzle violates the [Law of Demeter](https://en.wikipedia.org/wiki/Law_of_Demeter)! It's an unnatural abomination!
+### Requizzle violates the [Law of Demeter](https://wikipedia.org/wiki/Law_of_Demeter)! It's an unnatural abomination!
 
 Fair enough.
 
 ## Changelog
 
++ 0.2.4 (November 2022): Fixed a compatibility issue with
+[core modules](https://nodejs.org/docs/latest-v18.x/api/modules.html#core-modules)
+that are loaded with the `node:` prefix, as in `require('node:fs')`.
 + 0.2.3 (July 2019): Updated dependencies.
 + 0.2.2 (May 2019): Fixed a compability issue with Node.js 12.
 + 0.2.1 (December 2014): The `requirePaths` option no longer inserts an extra
@@ -159,7 +162,7 @@ in the `after` property will be searched last.
 searches the extra paths first rather than last.
 + 0.1.0 (June 2014): Initial release.
 
-## Acknowledgements ##
+## Acknowledgements
 
 Requizzle is very loosely adapted from Johannes Ewald's
 [rewire](https://github.com/jhnns/rewire) module, which is designed to modify a
@@ -168,4 +171,4 @@ take a look at rewire!
 
 ## License
 
-[MIT license](LICENSE).
+[MIT license](https://github.com/hegemonic/requizzle/blob/main/LICENSE).
