@@ -17,8 +17,12 @@ npm-debug.log
 
 coverage
 test
-.eslintrc
+.editorconfig
+.eslintignore
+.eslintrc.js
+.github
 .gitignore
 .npmignore
+.prettierrc.js
 .renovaterc.json
 gulpfile.js
