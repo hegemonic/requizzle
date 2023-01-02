@@ -30,7 +30,7 @@
   "devDependencies": {
     "@jsdoc/eslint-config": "^1.1.10",
     "@jsdoc/prettier-config": "^0.1.0",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "expectations": "^1.0.0",
     "gulp": "^4.0.2",
