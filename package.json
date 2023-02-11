@@ -34,7 +34,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "expectations": "^1.0.0",
     "gulp": "^4.0.2",
-    "gulp-eslint-new": "^1.7.1",
+    "gulp-eslint-new": "^1.7.2",
     "gulp-mocha": "^8.0.0"
   }
 }
