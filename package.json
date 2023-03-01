@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@jsdoc/eslint-config": "^1.2.0",
-    "@jsdoc/prettier-config": "^0.1.2",
+    "@jsdoc/prettier-config": "^0.2.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "expectations": "^1.0.0",
