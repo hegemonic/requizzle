@@ -31,7 +31,7 @@
     "@jsdoc/eslint-config": "^1.2.2",
     "@jsdoc/prettier-config": "^0.2.1",
     "eslint-config-prettier": "^8.10.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.0.0",
     "expectations": "^1.0.0",
     "gulp": "^4.0.2",
     "gulp-eslint-new": "^1.8.3",
